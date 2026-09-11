@@ -5,20 +5,18 @@ public class Canteen {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // ===== Menu Setup (individual variables instead of arrays) =====
         String item1Name = "Sinigang na Balut";  double item1Price = 80.00;
         String item2Name = "Sizzling Crocodile"; double item2Price = 120.00;
         String item3Name = "Adobong Kambing";    double item3Price = 100.00;
         String item4Name = "Unli-Wings Tinola";  double item4Price = 70.00;
         String item5Name = "Halo-halo";          double item5Price = 90.00;
 
-        // ===== Running Totals =====
         int totalQuantity = 0;
         double totalBeforeDiscount = 0.0;
         double totalDiscount = 0.0;
         double finalTotal = 0.0;
 
-        // ===== Display Menu (once, at start) =====
+        //Display Menu 
         System.out.println("=====  M E N U  =====");
         System.out.printf("1. %-20s - $%.2f%n", item1Name, item1Price);
         System.out.printf("2. %-20s - $%.2f%n", item2Name, item2Price);
@@ -36,7 +34,6 @@ public class Canteen {
             System.out.print("Enter quantity: ");
             int quantity = readInt(scanner);
 
-            // ===== Validate item number and quantity =====
             boolean validItem = (itemNumber >= 1 && itemNumber <= 5);
             boolean validQuantity = (quantity >= 1 && quantity <= 10);
 
@@ -44,12 +41,10 @@ public class Canteen {
                 System.out.println();
                 System.out.println("Invalid order! Please enter a valid item and quantity.");
             } else {
-                // Only ask for student status if the order itself is valid
                 System.out.print("Are you a student? (Y/N): ");
                 String studentInput = scanner.next().trim().toUpperCase();
                 boolean isStudent = studentInput.equals("Y");
 
-                // ===== Look up the price for the chosen item number =====
                 double pricePerItem;
                 if (itemNumber == 1) {
                     pricePerItem = item1Price;
@@ -63,10 +58,8 @@ public class Canteen {
                     pricePerItem = item5Price;
                 }
 
-                // ===== Compute subtotal =====
                 double subtotal = pricePerItem * quantity;
 
-                // ===== Determine discount rate =====
                 double discountRate;
                 if (isStudent && subtotal >= 500.0) {
                     discountRate = 0.15;   // student AND purchase >= $500
@@ -81,27 +74,24 @@ public class Canteen {
                 double discount = subtotal * discountRate;
                 double orderTotal = subtotal - discount;
 
-                // ===== Display order results =====
                 System.out.println();
                 System.out.printf("Subtotal: $%.2f%n", subtotal);
                 System.out.printf("Discount: $%.2f%n", discount);
                 System.out.printf("Order total: $%.2f%n", orderTotal);
 
-                // ===== Update running totals =====
                 totalQuantity += quantity;
                 totalBeforeDiscount += subtotal;
                 totalDiscount += discount;
                 finalTotal += orderTotal;
             }
 
-            // ===== Ask to order again =====
             System.out.println();
             System.out.print("Do you want to order again? (Y/N): ");
             String again = scanner.next().trim().toUpperCase();
             orderAgain = again.equals("Y");
         }
 
-        // ===== Final Order Summary =====
+        //Final Order
         System.out.println();
         System.out.println("===== ORDER SUMMARY =====");
         System.out.println("Total items: " + totalQuantity);
@@ -113,12 +103,11 @@ public class Canteen {
         scanner.close();
     }
 
-    // ===== Helper: safely read an integer, treating non-numeric input as invalid (-1) =====
     private static int readInt(Scanner scanner) {
         if (scanner.hasNextInt()) {
             return scanner.nextInt();
         } else {
-            String junk = scanner.next(); // consume invalid token so we don't loop forever
+            String junk = scanner.next();
             return -1;
         }
     }
